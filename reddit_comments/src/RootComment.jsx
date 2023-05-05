@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import reply_svg from '../images/icon-reply.svg';
+import delete_svg from '../images/icon-delete.svg';
 
-const RootComment = ({ comment }) => {
+const RootComment = ({ comment, currentUser }) => {
 	const [rating, setRating] = useState(0);
-	const { score, user, createdAt } = comment;
+	const { score, user, createdAt, id } = comment;
 
 	useEffect(() => {
 		setRating(score);
@@ -14,7 +15,16 @@ const RootComment = ({ comment }) => {
 	};
 
 	const handleDecrease = () => {
+		if (rating === 0) return;
 		if (rating === score || rating === score + 1) setRating(rating - 1);
+	};
+
+	const handleReply = () => {
+		console.log(`Comment to reply to is ${id}`);
+	};
+
+	const handleDelete = () => {
+		console.log(`Comment to be deleted is ${id}`);
 	};
 
 	return (
@@ -57,10 +67,23 @@ const RootComment = ({ comment }) => {
 						/>
 					</div>
 					<p className="username">{user.username}</p>
+					{currentUser.username === user.username && <p className="you">you</p>}
 					<p className="timestamp">{createdAt}</p>
+					{currentUser.username === user.username && (
+						<button
+							type="button"
+							className="delete_btn | flex"
+							onClick={() => handleDelete(id)}
+						>
+							<img src={delete_svg} />
+							delete
+						</button>
+					)}
+
 					<button
 						type="button"
 						className="reply_btn | flex"
+						onClick={() => handleReply(id)}
 					>
 						<img src={reply_svg} />
 						reply

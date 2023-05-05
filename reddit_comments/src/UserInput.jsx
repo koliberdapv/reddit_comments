@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 
-const UserInput = ({ currentUser }) => {
+const UserInput = ({ currentUser, commentsList, setCommentsList }) => {
 	const [text, setText] = useState('');
 	const { image, username } = currentUser;
 
@@ -11,7 +12,22 @@ const UserInput = ({ currentUser }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (text.length < 1) return;
-		console.log(text);
+		const newRootComment = {
+			id: nanoid(),
+			content: text,
+			createdAt: '1 min ago',
+			score: 0,
+			user: {
+				image: {
+					png: image.png,
+					webp: image.webp,
+				},
+				username: username,
+			},
+			replies: [],
+		};
+		const newCommentsList = [...commentsList, newRootComment];
+		setCommentsList(newCommentsList);
 		setText('');
 	};
 

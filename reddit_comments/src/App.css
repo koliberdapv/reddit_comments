@@ -7,6 +7,7 @@
 }
 
 :root {
+	--fs-300: 0.9375rem;
 	--fs-400: 1rem;
 	--fs-500: 1.25rem;
 	--fs-600: 1.5rem;
@@ -172,6 +173,7 @@ img {
 .root_comment__content {
 	flex-direction: column;
 	gap: 0.5rem;
+	flex-basis: 100%;
 }
 
 .user_info {
@@ -184,13 +186,23 @@ img {
 	font-weight: var(--fw-500);
 }
 
+.you {
+	margin-left: 1rem;
+	font-size: var(--fs-300);
+	color: var(--clr-white);
+	background-color: var(--clr-blue);
+	padding: 0.15rem 0.45rem;
+	border-radius: var(--br-5);
+}
+
 .timestamp {
 	margin-left: 1rem;
 	margin-right: auto;
 	color: var(--clr-grayish-blue);
 }
 
-.reply_btn {
+.reply_btn,
+.delete_btn {
 	border: none;
 	text-transform: capitalize;
 	background-color: transparent;
@@ -201,6 +213,12 @@ img {
 	align-items: center;
 }
 
+.delete_btn {
+	color: var(--clr-soft-red);
+	margin-right: 1rem;
+}
+
+.delete_btn:hover,
 .reply_btn:hover {
 	cursor: pointer;
 	opacity: 0.5;

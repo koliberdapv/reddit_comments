@@ -16,8 +16,15 @@ function App() {
 	return (
 		<main className="main">
 			<div className="container">
-				<CommentsList commentsList={commentsList} />
-				<UserInput currentUser={currentUser} />
+				<CommentsList
+					commentsList={commentsList}
+					currentUser={currentUser}
+				/>
+				<UserInput
+					currentUser={currentUser}
+					commentsList={commentsList}
+					setCommentsList={setCommentsList}
+				/>
 			</div>
 		</main>
 	);
