@@ -18,6 +18,7 @@ function App() {
 			<div className="container">
 				<CommentsList
 					commentsList={commentsList}
+					setCommentsList={setCommentsList}
 					currentUser={currentUser}
 				/>
 				<UserInput

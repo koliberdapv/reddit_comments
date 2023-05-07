@@ -1,8 +1,14 @@
+import Dialog from './Dialog';
 import { useEffect, useState } from 'react';
 import reply_svg from '../images/icon-reply.svg';
 import delete_svg from '../images/icon-delete.svg';
 
-const RootComment = ({ comment, currentUser }) => {
+const RootComment = ({
+	comment,
+	currentUser,
+	commentsList,
+	setCommentsList,
+}) => {
 	const [rating, setRating] = useState(0);
 	const { score, user, createdAt, id } = comment;
 
@@ -20,11 +26,12 @@ const RootComment = ({ comment, currentUser }) => {
 	};
 
 	const handleReply = () => {
-		console.log(`Comment to reply to is ${id}`);
+		console.log(`Comment to reply to id ${id}`);
 	};
 
 	const handleDelete = () => {
-		console.log(`Comment to be deleted is ${id}`);
+		const dialog = document.querySelector('.root_comment__dialog');
+		dialog.showModal();
 	};
 
 	return (
@@ -70,14 +77,21 @@ const RootComment = ({ comment, currentUser }) => {
 					{currentUser.username === user.username && <p className="you">you</p>}
 					<p className="timestamp">{createdAt}</p>
 					{currentUser.username === user.username && (
-						<button
-							type="button"
-							className="delete_btn | flex"
-							onClick={() => handleDelete(id)}
-						>
-							<img src={delete_svg} />
-							delete
-						</button>
+						<>
+							<button
+								type="button"
+								className="delete_btn | flex"
+								onClick={() => handleDelete(id)}
+							>
+								<img src={delete_svg} />
+								delete
+							</button>
+							<Dialog
+								id={id}
+								commentsList={commentsList}
+								setCommentsList={setCommentsList}
+							/>
+						</>
 					)}
 
 					<button
