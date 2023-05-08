@@ -12,9 +12,25 @@ const RootComment = ({
 }) => {
 	const [rating, setRating] = useState(0);
 	const { score, user, createdAt, id } = comment;
+	const [isReply, setIsReply] = useState(false);
+	const [replyList, setReplyList] = useState([]);
+
+	// console.log(comment?.replies);
+	console.log(replyList);
 
 	useEffect(() => {
 		setRating(score);
+	}, []);
+
+	useEffect(() => {
+		const replies = comment?.replies || [];
+		setReplyList(replies);
+	}, []);
+
+	useState(() => {
+		if (comment.replyingTo) {
+			setIsReply(true);
+		}
 	}, []);
 
 	const handleIncrease = () => {
@@ -31,7 +47,8 @@ const RootComment = ({
 	};
 
 	const handleDelete = () => {
-		const dialog = document.querySelector('.root_comment__dialog');
+		const dialog = document.getElementById(id);
+		console.log(dialog);
 		dialog.showModal();
 	};
 
@@ -92,7 +109,7 @@ const RootComment = ({
 										delete
 									</button>
 									<Dialog
-										id={id}
+										comment={comment}
 										commentsList={commentsList}
 										setCommentsList={setCommentsList}
 									/>
@@ -112,25 +129,24 @@ const RootComment = ({
 					</div>
 				</div>
 			</article>
-			{comment.replies.length > 0 && (
-				<div className="replies_list | grid">
+			<div className="replies_list">
+				<div className="replies_container ">
 					<div className="divider"></div>
-					<div className="replies_container | grid">
-						{comment.replies.map((reply) => {
-							return (
-								<Reply
-									reply={reply}
-									key={reply.id}
-									parentId={id}
-									currentUser={currentUser}
-									commentsList={commentsList}
-									setCommentsList={setCommentsList}
-								/>
-							);
-						})}
-					</div>
+					{replyList.map((reply) => {
+						return (
+							<RootComment
+								key={reply.id}
+								comment={reply}
+								commentsList={commentsList}
+								setCommentsList={setCommentsList}
+								currentUser={currentUser}
+								replyList={replyList}
+								setReplyList={setReplyList}
+							/>
+						);
+					})}
 				</div>
-			)}
+			</div>
 		</>
 	);
 };

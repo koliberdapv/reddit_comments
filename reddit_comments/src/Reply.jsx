@@ -12,7 +12,6 @@ const Reply = ({
 }) => {
 	const [rating, setRating] = useState(0);
 	const { content, id, createdAt, score, replyingTo, user, username } = reply;
-	const [repliesList, setRepliesList] = useState([]);
 
 	useEffect(() => {
 		setRating(score);
@@ -94,7 +93,7 @@ const Reply = ({
 									delete
 								</button>
 								<Dialog
-									id={id}
+									replyId={id}
 									commentsList={commentsList}
 									setCommentsList={setCommentsList}
 									isReply={true}
