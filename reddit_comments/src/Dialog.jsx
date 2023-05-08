@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 
-const Dialog = ({ id, commentsList, setCommentsList }) => {
-	console.log(setCommentsList);
+const Dialog = ({
+	id,
+	commentsList,
+	setCommentsList,
+	isReply = 'false',
+	parentId,
+}) => {
 	const handleDialogCancel = (id) => {
 		const dialog = document.querySelector('.root_comment__dialog');
 		dialog.close();
@@ -9,14 +14,35 @@ const Dialog = ({ id, commentsList, setCommentsList }) => {
 
 	const handleDialogDelete = () => {
 		const dialog = document.querySelector('.root_comment__dialog');
-		func(commentsList, id);
+		if (isReply) {
+			console.log('deleting a reply');
+			deleteReply(commentsList, parentId, id);
+			dialog.close();
+			return;
+		}
+		deleteRootComment(commentsList, id);
 		dialog.close();
 	};
 
-	const func = (commentsList, id) => {
+	const deleteReply = (commentsList, parentId, id) => {
+		const parentComment = commentsList.filter(
+			(comment) => comment.id === parentId
+		);
+		console.log(parentComment);
+		const currentComment = parentComment[0].replies.filter(
+			(comment) => comment.id === id
+		);
+
+		currentComment[0].content = 'fuck me';
+		console.log(currentComment);
+		console.log(parentComment[0].replies.indexOf(currentComment[0]));
+	};
+
+	const deleteRootComment = (commentsList, id) => {
 		const newList = commentsList.filter((comment) => comment.id !== id);
 		setCommentsList(newList);
 	};
+
 	return (
 		<dialog className="root_comment__dialog">
 			<div className="dialog_container | flex">
