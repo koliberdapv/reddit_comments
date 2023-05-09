@@ -13,10 +13,11 @@ const RootComment = ({
 	const [rating, setRating] = useState(0);
 	const { score, user, createdAt, id } = comment;
 	const [isReply, setIsReply] = useState(false);
-	const [replyList, setReplyList] = useState([]);
+	const [destinationReplyList, setDestinationReplyList] = useState([]);
 
-	// console.log(comment?.replies);
-	console.log(replyList);
+	useEffect(() => {
+		console.log('rerender');
+	}, [comment]);
 
 	useEffect(() => {
 		setRating(score);
@@ -24,7 +25,7 @@ const RootComment = ({
 
 	useEffect(() => {
 		const replies = comment?.replies || [];
-		setReplyList(replies);
+		setDestinationReplyList(replies);
 	}, []);
 
 	useState(() => {
@@ -112,6 +113,7 @@ const RootComment = ({
 										comment={comment}
 										commentsList={commentsList}
 										setCommentsList={setCommentsList}
+										destinationReplyList={destinationReplyList}
 									/>
 								</>
 							)}
@@ -132,7 +134,7 @@ const RootComment = ({
 			<div className="replies_list">
 				<div className="replies_container ">
 					<div className="divider"></div>
-					{replyList.map((reply) => {
+					{destinationReplyList.map((reply) => {
 						return (
 							<RootComment
 								key={reply.id}
@@ -140,8 +142,7 @@ const RootComment = ({
 								commentsList={commentsList}
 								setCommentsList={setCommentsList}
 								currentUser={currentUser}
-								replyList={replyList}
-								setReplyList={setReplyList}
+								destinationReplyList={destinationReplyList}
 							/>
 						);
 					})}

@@ -1,6 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Dialog = ({ comment, commentsList, setCommentsList }) => {
+const Dialog = ({
+	comment,
+	commentsList,
+	setCommentsList,
+	setDestinationReplyList,
+	destinationReplyList,
+}) => {
+	const [replyLis, setReplyList] = useState([]);
 	const { id } = comment;
 
 	const handleDialogCancel = () => {
@@ -12,13 +19,25 @@ const Dialog = ({ comment, commentsList, setCommentsList }) => {
 	const handleDialogDelete = () => {
 		const dialog = document.getElementById(id);
 		deleteRootComment(commentsList, id);
-		console.log(id);
 		dialog.close();
 	};
 
+	const remove = (comment) => {
+		const replyToDelete = comment.replies?.find((reply) => {
+			return reply.id === id;
+		});
+		if (replyToDelete) console.log('there is a reply to delete');
+		if (replyToDelete) {
+			const index = comment.replies.indexOf(replyToDelete);
+			comment.replies.splice(index, 1);
+		}
+	};
+
 	const deleteRootComment = (commentsList, id) => {
-		const newList = commentsList.filter((comment) => comment.id !== id);
-		setCommentsList(newList);
+		const itemToRemove = commentsList.find((comment) => comment.id === id);
+		commentsList.forEach((comment) => {
+			remove(comment);
+		});
 	};
 
 	return (
