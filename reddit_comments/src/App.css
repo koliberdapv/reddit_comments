@@ -203,7 +203,8 @@ img {
 }
 
 .reply_btn,
-.delete_btn {
+.delete_btn,
+.edit_btn {
 	border: none;
 	text-transform: capitalize;
 	background-color: transparent;
@@ -220,7 +221,8 @@ img {
 }
 
 .delete_btn:hover,
-.reply_btn:hover {
+.reply_btn:hover,
+.edit_btn:hover {
 	cursor: pointer;
 	opacity: 0.5;
 }
@@ -275,29 +277,17 @@ img {
 }
 
 .replies_list {
-	width: 95%;
 	margin-left: auto;
+	width: calc(100% - 2rem);
 	grid-template-columns: 2rem 1fr;
 }
 
-.replies_container {
-	gap: 2rem;
-}
-
-.reply_content {
-	flex-direction: row;
-
-	gap: 1rem;
-}
-
 .divider {
-	height: 100%;
-	width: 2px;
+	width: 0.2rem;
 	background-color: var(--clr-light-gray);
+	height: 100%;
 }
 
-.tag {
-	color: var(--clr-blue);
-	font-weight: var(--fw-500);
-	margin-right: 0.25rem;
+.replies_container {
+	gap: 1rem;
 }

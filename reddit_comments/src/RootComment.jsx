@@ -3,6 +3,7 @@ import Reply from './Reply';
 import { useEffect, useState } from 'react';
 import reply_svg from '../images/icon-reply.svg';
 import delete_svg from '../images/icon-delete.svg';
+import edit_svg from '../images/icon-edit.svg';
 
 const RootComment = ({
 	comment,
@@ -12,12 +13,8 @@ const RootComment = ({
 }) => {
 	const [rating, setRating] = useState(0);
 	const { score, user, createdAt, id } = comment;
-	const [isReply, setIsReply] = useState(false);
 	const [destinationReplyList, setDestinationReplyList] = useState([]);
-
-	useEffect(() => {
-		console.log('rerender');
-	}, [comment]);
+	const [areRepliesThere, setAreRepliesThere] = useState(true);
 
 	useEffect(() => {
 		setRating(score);
@@ -26,12 +23,6 @@ const RootComment = ({
 	useEffect(() => {
 		const replies = comment?.replies || [];
 		setDestinationReplyList(replies);
-	}, []);
-
-	useState(() => {
-		if (comment.replyingTo) {
-			setIsReply(true);
-		}
 	}, []);
 
 	const handleIncrease = () => {
@@ -52,6 +43,13 @@ const RootComment = ({
 		console.log(dialog);
 		dialog.showModal();
 	};
+
+	useEffect(() => {
+		console.log(id, comment.replies?.length);
+		if (comment.replies?.length == 0 || comment.replies?.length == undefined) {
+			setAreRepliesThere(false);
+		}
+	}, []);
 
 	return (
 		<>
@@ -96,7 +94,7 @@ const RootComment = ({
 							</div>
 							<p className="username">{user.username}</p>
 							{currentUser.username === user.username && (
-								<p className="you">you</p>
+								<span className="you">you</span>
 							)}
 							<p className="timestamp">{createdAt}</p>
 							{currentUser.username === user.username && (
@@ -109,6 +107,14 @@ const RootComment = ({
 										<img src={delete_svg} />
 										delete
 									</button>
+									<button
+										type="button"
+										className="edit_btn | flex"
+										onClick={() => handleEdit(id)}
+									>
+										<img src={edit_svg} />
+										edit
+									</button>
 									<Dialog
 										comment={comment}
 										commentsList={commentsList}
@@ -117,37 +123,40 @@ const RootComment = ({
 									/>
 								</>
 							)}
-
-							<button
-								type="submit"
-								className="reply_btn | flex"
-								onClick={() => handleReply(id)}
-							>
-								<img src={reply_svg} />
-								reply
-							</button>
+							{currentUser.username != user.username && (
+								<button
+									type="button"
+									className="reply_btn | flex"
+									onClick={() => handleReply(id)}
+								>
+									<img src={reply_svg} />
+									reply
+								</button>
+							)}
 						</div>
 						<p className="comment_content">{comment.content}</p>
 					</div>
 				</div>
 			</article>
-			<div className="replies_list">
-				<div className="replies_container ">
+			{areRepliesThere && (
+				<div className="replies_list | grid">
 					<div className="divider"></div>
-					{destinationReplyList.map((reply) => {
-						return (
-							<RootComment
-								key={reply.id}
-								comment={reply}
-								commentsList={commentsList}
-								setCommentsList={setCommentsList}
-								currentUser={currentUser}
-								destinationReplyList={destinationReplyList}
-							/>
-						);
-					})}
+					<div className="replies_container | grid ">
+						{destinationReplyList.map((reply) => {
+							return (
+								<RootComment
+									key={reply.id}
+									comment={reply}
+									commentsList={commentsList}
+									setCommentsList={setCommentsList}
+									currentUser={currentUser}
+									destinationReplyList={destinationReplyList}
+								/>
+							);
+						})}
+					</div>
 				</div>
-			</div>
+			)}
 		</>
 	);
 };
