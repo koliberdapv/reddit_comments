@@ -2,42 +2,39 @@ import React, { useEffect, useState } from 'react';
 
 const Dialog = ({
 	comment,
+	repliesList,
+	setRepliesList,
 	commentsList,
 	setCommentsList,
-	setDestinationReplyList,
-	destinationReplyList,
+	isReply,
 }) => {
-	const [replyLis, setReplyList] = useState([]);
 	const { id } = comment;
 
 	const handleDialogCancel = () => {
 		const dialog = document.getElementById(id);
-		console.log(dialog);
 		dialog.close();
 	};
 
 	const handleDialogDelete = () => {
 		const dialog = document.getElementById(id);
-		deleteRootComment(commentsList, id);
-		dialog.close();
-	};
-
-	const remove = (comment) => {
-		const replyToDelete = comment.replies?.find((reply) => {
-			return reply.id === id;
-		});
-		if (replyToDelete) console.log('there is a reply to delete');
-		if (replyToDelete) {
-			const index = comment.replies.indexOf(replyToDelete);
-			comment.replies.splice(index, 1);
+		if (isReply) {
+			deleteReply(repliesList, id);
+			dialog.close();
+			return;
+		} else {
+			deleteRootComment(commentsList, id);
+			dialog.close();
 		}
 	};
 
 	const deleteRootComment = (commentsList, id) => {
-		const itemToRemove = commentsList.find((comment) => comment.id === id);
-		commentsList.forEach((comment) => {
-			remove(comment);
-		});
+		const newCommentsList = commentsList.filter((comment) => comment.id != id);
+		setCommentsList(newCommentsList);
+	};
+
+	const deleteReply = (repliesList, id) => {
+		const newReplyList = repliesList.filter((reply) => reply.id != id);
+		setRepliesList(newReplyList);
 	};
 
 	return (

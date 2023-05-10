@@ -1,55 +1,57 @@
-import Dialog from './Dialog';
-import Reply from './Reply';
 import { useEffect, useState } from 'react';
+import RepliesList from './RepliesList';
+import Dialog from './Dialog';
 import reply_svg from '../images/icon-reply.svg';
 import delete_svg from '../images/icon-delete.svg';
 import edit_svg from '../images/icon-edit.svg';
+import UserInput from './UserInput';
 
 const RootComment = ({
 	comment,
 	currentUser,
 	commentsList,
 	setCommentsList,
+	repliesList,
+	setRepliesList,
 }) => {
 	const [rating, setRating] = useState(0);
-	const { score, user, createdAt, id } = comment;
-	const [destinationReplyList, setDestinationReplyList] = useState([]);
-	const [areRepliesThere, setAreRepliesThere] = useState(true);
+	const [isReply, setIsReply] = useState(false);
+	const [isUserReplying, setIsUserReplying] = useState(false);
+	const [commentContent, setCommentContent] = useState(comment);
+	const [children, setChildren] = useState(commentContent?.replies || []);
+	const { score, user, createdAt, id } = commentContent;
 
 	useEffect(() => {
 		setRating(score);
 	}, []);
 
+	// useEffect(() => {
+	// 	if (children.length > 0) return;
+	// 	setChildren(comment?.replies);
+	// }, []);
+
 	useEffect(() => {
-		const replies = comment?.replies || [];
-		setDestinationReplyList(replies);
+		if (!commentsList?.includes(commentContent)) {
+			setIsReply(true);
+		}
 	}, []);
 
-	const handleIncrease = () => {
-		if (rating === score || rating === score - 1) setRating(rating + 1);
-	};
-
-	const handleDecrease = () => {
-		if (rating === 0) return;
-		if (rating === score || rating === score + 1) setRating(rating - 1);
-	};
-
-	const handleReply = () => {
-		console.log(`Comment to reply to id ${id}`);
+	const handleRatingChange = (action) => {
+		if (action === 'increase') {
+			if (rating === score || rating === score - 1) setRating(rating + 1);
+		}
+		if (action === 'decrease') {
+			if (rating === 0) return;
+			if (rating === score || rating === score + 1) setRating(rating - 1);
+		}
 	};
 
 	const handleDelete = () => {
 		const dialog = document.getElementById(id);
-		console.log(dialog);
 		dialog.showModal();
 	};
 
-	useEffect(() => {
-		console.log(id, comment.replies?.length);
-		if (comment.replies?.length == 0 || comment.replies?.length == undefined) {
-			setAreRepliesThere(false);
-		}
-	}, []);
+	// console.log(commentContent?.id, children);
 
 	return (
 		<>
@@ -59,7 +61,7 @@ const RootComment = ({
 						<button
 							type="button"
 							className="increase_btn"
-							onClick={handleIncrease}
+							onClick={() => handleRatingChange('increase')}
 						>
 							<svg
 								width="11"
@@ -73,7 +75,7 @@ const RootComment = ({
 						<button
 							type="button"
 							className="decrease_btn"
-							onClick={handleDecrease}
+							onClick={() => handleRatingChange('decrease')}
 						>
 							<svg
 								width="11"
@@ -119,7 +121,9 @@ const RootComment = ({
 										comment={comment}
 										commentsList={commentsList}
 										setCommentsList={setCommentsList}
-										destinationReplyList={destinationReplyList}
+										repliesList={repliesList}
+										setRepliesList={setRepliesList}
+										isReply={isReply}
 									/>
 								</>
 							)}
@@ -127,7 +131,7 @@ const RootComment = ({
 								<button
 									type="button"
 									className="reply_btn | flex"
-									onClick={() => handleReply(id)}
+									onClick={() => setIsUserReplying(!isUserReplying)}
 								>
 									<img src={reply_svg} />
 									reply
@@ -138,24 +142,27 @@ const RootComment = ({
 					</div>
 				</div>
 			</article>
-			{areRepliesThere && (
-				<div className="replies_list | grid">
-					<div className="divider"></div>
-					<div className="replies_container | grid ">
-						{destinationReplyList.map((reply) => {
-							return (
-								<RootComment
-									key={reply.id}
-									comment={reply}
-									commentsList={commentsList}
-									setCommentsList={setCommentsList}
-									currentUser={currentUser}
-									destinationReplyList={destinationReplyList}
-								/>
-							);
-						})}
-					</div>
-				</div>
+			{isUserReplying && (
+				<UserInput
+					currentUser={currentUser}
+					commentsList={commentsList}
+					setCommentsList={setCommentsList}
+					repliesList={repliesList}
+					setRepliesList={setRepliesList}
+					isReply={isReply}
+					setIsUserReplying={setIsUserReplying}
+					children={children}
+					setChildren={setChildren}
+					commentContent={comment}
+					isRootComment={false}
+				/>
+			)}
+			{children?.length != 0 && (
+				<RepliesList
+					commentContent={comment}
+					currentUser={currentUser}
+					children={children}
+				/>
 			)}
 		</>
 	);

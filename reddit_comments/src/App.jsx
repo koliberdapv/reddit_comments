@@ -22,6 +22,7 @@ function App() {
 					currentUser={currentUser}
 				/>
 				<UserInput
+					isRootComment={true}
 					currentUser={currentUser}
 					commentsList={commentsList}
 					setCommentsList={setCommentsList}

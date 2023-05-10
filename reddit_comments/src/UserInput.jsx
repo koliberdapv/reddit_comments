@@ -1,7 +1,19 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 
-const UserInput = ({ currentUser, commentsList, setCommentsList }) => {
+const UserInput = ({
+	currentUser,
+	commentsList,
+	setCommentsList,
+	repliesList,
+	setRepliesList,
+	isReply,
+	setIsUserReplying,
+	children,
+	setChildren,
+	comment,
+	isRootComment,
+}) => {
 	const [text, setText] = useState('');
 	const { image, username } = currentUser;
 
@@ -12,7 +24,7 @@ const UserInput = ({ currentUser, commentsList, setCommentsList }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (text.length < 1) return;
-		const newRootComment = {
+		const newComment = {
 			id: nanoid(),
 			content: text,
 			createdAt: '1 min ago',
@@ -26,11 +38,17 @@ const UserInput = ({ currentUser, commentsList, setCommentsList }) => {
 			},
 			replies: [],
 		};
-		const newCommentsList = [...commentsList, newRootComment];
-		setCommentsList(newCommentsList);
+
+		if (!isRootComment) {
+			const newCommentsList = [...children, newComment];
+			setChildren(newCommentsList);
+			setIsUserReplying(false);
+		} else {
+			const newCommentsList = [...commentsList, newComment];
+			setCommentsList(newCommentsList);
+		}
 		setText('');
 	};
-
 	return (
 		<article className="user_input">
 			<form
@@ -44,6 +62,7 @@ const UserInput = ({ currentUser, commentsList, setCommentsList }) => {
 					/>
 				</picture>
 				<textarea
+					autoFocus
 					name="user-input"
 					id="user-input"
 					cols="30"

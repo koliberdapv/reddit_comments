@@ -3,11 +3,11 @@ import RootComment from './RootComment';
 const CommentsList = ({ commentsList, currentUser, setCommentsList }) => {
 	return (
 		<section className="comments">
-			{commentsList.map((comment) => {
+			{commentsList.map((commentContent) => {
 				return (
 					<RootComment
-						comment={comment}
-						key={comment.id}
+						comment={commentContent}
+						key={commentContent.id}
 						currentUser={currentUser}
 						commentsList={commentsList}
 						setCommentsList={setCommentsList}
