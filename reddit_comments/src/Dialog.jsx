@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 const Dialog = ({
-	comment,
+	commentContent,
 	repliesList,
 	setRepliesList,
 	commentsList,
 	setCommentsList,
 	isReply,
 }) => {
-	const { id } = comment;
+	const { id } = commentContent;
 
 	const handleDialogCancel = () => {
 		const dialog = document.getElementById(id);

@@ -19,16 +19,12 @@ const RootComment = ({
 	const [isUserReplying, setIsUserReplying] = useState(false);
 	const [commentContent, setCommentContent] = useState(comment);
 	const [children, setChildren] = useState(commentContent?.replies || []);
-	const { score, user, createdAt, id } = commentContent;
+	const [isEditing, setIsEditing] = useState(false);
+	const { score, user, createdAt, id, replyingTo, content } = commentContent;
 
 	useEffect(() => {
 		setRating(score);
 	}, []);
-
-	// useEffect(() => {
-	// 	if (children.length > 0) return;
-	// 	setChildren(comment?.replies);
-	// }, []);
 
 	useEffect(() => {
 		if (!commentsList?.includes(commentContent)) {
@@ -46,12 +42,14 @@ const RootComment = ({
 		}
 	};
 
+	const handleEdit = (id) => {
+		setIsEditing(!isEditing);
+	};
+
 	const handleDelete = () => {
 		const dialog = document.getElementById(id);
 		dialog.showModal();
 	};
-
-	// console.log(commentContent?.id, children);
 
 	return (
 		<>
@@ -118,7 +116,7 @@ const RootComment = ({
 										edit
 									</button>
 									<Dialog
-										comment={comment}
+										commentContent={commentContent}
 										commentsList={commentsList}
 										setCommentsList={setCommentsList}
 										repliesList={repliesList}
@@ -138,7 +136,35 @@ const RootComment = ({
 								</button>
 							)}
 						</div>
-						<p className="comment_content">{comment.content}</p>
+						{isEditing && (
+							<UserInput
+								isEditing={isEditing}
+								setIsEditing={setIsEditing}
+								id={id}
+								currentUser={currentUser}
+								commentsList={commentsList}
+								setCommentsList={setCommentsList}
+								repliesList={repliesList}
+								setRepliesList={setRepliesList}
+								isReply={isReply}
+								setIsUserReplying={setIsUserReplying}
+								children={children}
+								setChildren={setChildren}
+								commentContent={commentContent}
+								setCommentContent={setCommentContent}
+								isRootComment={false}
+							/>
+						)}
+						{!isEditing && (
+							<p className="comment_content">
+								<span className="tag">
+									{`${(commentContent?.replyingTo && '@') || ''}${
+										commentContent?.replyingTo || ''
+									}`}
+								</span>
+								<span>{commentContent.content}</span>
+							</p>
+						)}
 					</div>
 				</div>
 			</article>
@@ -153,13 +179,13 @@ const RootComment = ({
 					setIsUserReplying={setIsUserReplying}
 					children={children}
 					setChildren={setChildren}
-					commentContent={comment}
+					commentContent={commentContent}
 					isRootComment={false}
 				/>
 			)}
 			{children?.length != 0 && (
 				<RepliesList
-					commentContent={comment}
+					commentContent={commentContent}
 					currentUser={currentUser}
 					children={children}
 				/>
