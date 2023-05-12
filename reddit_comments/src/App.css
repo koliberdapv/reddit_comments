@@ -46,6 +46,7 @@ body {
 .main {
 	background-color: var(--clr-very-light-gray);
 	min-height: 100vh;
+	padding: 2rem 0;
 }
 
 .container {
@@ -64,10 +65,6 @@ body {
 
 img {
 	width: 100%;
-}
-
-.user_input {
-	margin: -1rem 0 0;
 }
 
 .user_input__form {
@@ -127,7 +124,7 @@ img {
 }
 
 .comments {
-	padding: 2rem 0 2.5rem;
+	padding: 0 0 1.5rem;
 	display: grid;
 	gap: 1.5rem;
 }
@@ -312,4 +309,86 @@ img {
 	color: var(--clr-blue);
 	font-weight: var(--fw-500);
 	margin-right: 0.25rem;
+}
+
+.comment_buttons {
+	margin-left: auto;
+}
+
+@media (width <= 830px) {
+	.root_comment__container {
+		flex-direction: column;
+		isolation: isolate;
+	}
+
+	.rating {
+		order: 3;
+		display: flex;
+		margin-top: -2.25rem;
+	}
+	.increase_btn {
+		border-radius: var(--br-5) 0 0 var(--br-5);
+	}
+	.decrease_btn {
+		border-radius: 0 var(--br-5) var(--br-5) 0;
+	}
+
+	.comment_buttons {
+		order: 10;
+	}
+
+	.user_info {
+		justify-content: flex-start;
+		gap: 0.75rem;
+	}
+	.username,
+	.timestamp,
+	.you {
+		margin: 0;
+	}
+
+	.comment_buttons {
+		z-index: 2;
+	}
+
+	.replies_list {
+		width: 100%;
+		grid-template-columns: 1rem 1fr;
+	}
+
+	.user_input__form {
+		flex-wrap: wrap;
+	}
+
+	.user_input_text {
+		order: -1;
+		width: 100%;
+	}
+
+	.user_input_submit {
+		margin-left: auto;
+		z-index: 2;
+	}
+
+	.user_input {
+		margin: -0.75rem 0 0;
+	}
+
+	.root_comment__content:has(.user_input) .user_input {
+		margin: 0 0 -0.75rem;
+	}
+
+	.phone_width {
+		margin-left: 0;
+	}
+}
+
+.comment_content {
+	order: 10;
+	/* width: 100%; */
+	flex-basis: 10000%;
+}
+
+.user_info {
+	flex-wrap: wrap;
 }

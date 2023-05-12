@@ -97,44 +97,64 @@ const RootComment = ({
 								<span className="you">you</span>
 							)}
 							<p className="timestamp">{createdAt}</p>
-							{currentUser.username === user.username && (
-								<>
+
+							{!isEditing && (
+								<p className="comment_content">
+									<span className="tag">
+										{`${(commentContent?.replyingTo && '@') || ''}${
+											commentContent?.replyingTo || ''
+										}`}
+									</span>
+									<span>{commentContent.content}</span>
+								</p>
+							)}
+							{/* <div className="comment_buttons | flex"> */}
+							<div
+								className={`${
+									isEditing
+										? 'comment_buttons | flex phone_width'
+										: 'comment_buttons | flex'
+								}`}
+							>
+								{currentUser.username === user.username && (
+									<>
+										<button
+											type="button"
+											className="delete_btn | flex"
+											onClick={() => handleDelete(id)}
+										>
+											<img src={delete_svg} />
+											delete
+										</button>
+										<button
+											type="button"
+											className="edit_btn | flex"
+											onClick={() => handleEdit(id)}
+										>
+											<img src={edit_svg} />
+											edit
+										</button>
+										<Dialog
+											commentContent={commentContent}
+											commentsList={commentsList}
+											setCommentsList={setCommentsList}
+											repliesList={repliesList}
+											setRepliesList={setRepliesList}
+											isReply={isReply}
+										/>
+									</>
+								)}
+								{currentUser.username != user.username && (
 									<button
 										type="button"
-										className="delete_btn | flex"
-										onClick={() => handleDelete(id)}
+										className="reply_btn | flex"
+										onClick={() => setIsUserReplying(!isUserReplying)}
 									>
-										<img src={delete_svg} />
-										delete
+										<img src={reply_svg} />
+										reply
 									</button>
-									<button
-										type="button"
-										className="edit_btn | flex"
-										onClick={() => handleEdit(id)}
-									>
-										<img src={edit_svg} />
-										edit
-									</button>
-									<Dialog
-										commentContent={commentContent}
-										commentsList={commentsList}
-										setCommentsList={setCommentsList}
-										repliesList={repliesList}
-										setRepliesList={setRepliesList}
-										isReply={isReply}
-									/>
-								</>
-							)}
-							{currentUser.username != user.username && (
-								<button
-									type="button"
-									className="reply_btn | flex"
-									onClick={() => setIsUserReplying(!isUserReplying)}
-								>
-									<img src={reply_svg} />
-									reply
-								</button>
-							)}
+								)}
+							</div>
 						</div>
 						{isEditing && (
 							<UserInput
@@ -154,16 +174,6 @@ const RootComment = ({
 								setCommentContent={setCommentContent}
 								isRootComment={false}
 							/>
-						)}
-						{!isEditing && (
-							<p className="comment_content">
-								<span className="tag">
-									{`${(commentContent?.replyingTo && '@') || ''}${
-										commentContent?.replyingTo || ''
-									}`}
-								</span>
-								<span>{commentContent.content}</span>
-							</p>
 						)}
 					</div>
 				</div>
