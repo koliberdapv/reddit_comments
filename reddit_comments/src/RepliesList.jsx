@@ -10,12 +10,8 @@ const RepliesList = ({ comment, currentUser, children }) => {
 
 	return (
 		<div className="replies_list | grid">
-			{/* <div */}
-			{/* className={repliesList.length > 0 ? 'replies_list | grid" ' : 'hidden'} */}
-			{/* > */}
 			<div className="divider"></div>
 			<div className="replies_container | grid ">
-				{/* <div className={repliesList.length > 0 ? 'replies_container | grid ' : ''}> */}
 				{repliesList.map((reply) => {
 					return (
 						<RootComment

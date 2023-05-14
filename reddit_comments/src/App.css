@@ -93,6 +93,7 @@ img {
 	border: 2px solid var(--clr-very-light-gray);
 	border-radius: var(--br-10);
 	resize: none;
+	white-space: pre-wrap;
 }
 
 .user_input_text:focus,

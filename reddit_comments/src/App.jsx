@@ -5,13 +5,22 @@ import data from './data.json';
 import UserInput from './UserInput';
 
 const { comments, currentUser } = data;
+if (!localStorage.getItem('comments')) {
+	localStorage.setItem('comments', JSON.stringify(data.comments));
+	console.log('added to the storage');
+}
 
 function App() {
 	const [commentsList, setCommentsList] = useState([]);
+	const storedComments = JSON.parse(localStorage.getItem('comments'));
 
 	useEffect(() => {
-		setCommentsList(comments);
+		setCommentsList(storedComments);
 	}, []);
+
+	useEffect(() => {
+		localStorage.setItem('comments', JSON.stringify(commentsList));
+	}, [commentsList]);
 
 	return (
 		<main className="main">

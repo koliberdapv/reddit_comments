@@ -108,7 +108,6 @@ const RootComment = ({
 									<span>{commentContent.content}</span>
 								</p>
 							)}
-							{/* <div className="comment_buttons | flex"> */}
 							<div
 								className={`${
 									isEditing
