@@ -27,6 +27,8 @@ const UserInput = ({
 		}
 	}, []);
 
+	const date = new Date();
+
 	const handleChange = (e) => {
 		setText(e.target.value);
 	};
@@ -44,7 +46,7 @@ const UserInput = ({
 		const newComment = {
 			id: nanoid(),
 			content: text,
-			createdAt: '1 min ago',
+			createdAt: '1 minute ago',
 			score: 0,
 			replyingTo: commentContent?.user?.username || '',
 			user: {
@@ -67,6 +69,14 @@ const UserInput = ({
 		}
 		setText('');
 	};
+
+	// const date = new Date();
+	// const oldDate = new Date('2023-04-13');
+	// console.log(date);
+	// console.log(oldDate);
+	// const dif = date - oldDate;
+	// let dif2 = dif / (1000 * 60 * 60 * 24);
+	// console.log(dif2);
 
 	return (
 		<article className="user_input">

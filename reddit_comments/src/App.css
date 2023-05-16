@@ -326,12 +326,14 @@ img {
 		order: 3;
 		display: flex;
 		margin-top: -2.25rem;
+		flex-flow: row-reverse;
+		margin-right: auto;
 	}
 	.increase_btn {
-		border-radius: var(--br-5) 0 0 var(--br-5);
+		border-radius: 0 var(--br-5) var(--br-5) 0;
 	}
 	.decrease_btn {
-		border-radius: 0 var(--br-5) var(--br-5) 0;
+		border-radius: var(--br-5) 0 0 var(--br-5);
 	}
 
 	.comment_buttons {
@@ -386,7 +388,6 @@ img {
 
 .comment_content {
 	order: 10;
-	/* width: 100%; */
 	flex-basis: 10000%;
 }
 

@@ -51,6 +51,16 @@ const RootComment = ({
 		dialog.showModal();
 	};
 
+	// const date = new Date();
+	// const oldDate = new Date('2023-04-13');
+	// console.log(date);
+	// console.log(oldDate);
+	// const dif = date - oldDate;
+	// let dif2 = dif / (1000 * 60 * 60 * 24);
+	// console.log(dif2);
+
+	// console.log(createdAt, id);
+
 	return (
 		<>
 			<article className="root_comment | flex">
@@ -197,6 +207,7 @@ const RootComment = ({
 					commentContent={commentContent}
 					currentUser={currentUser}
 					children={children}
+					setChildren={setChildren}
 				/>
 			)}
 		</>
