@@ -5,9 +5,6 @@ const UserInput = ({
 	currentUser,
 	commentsList,
 	setCommentsList,
-	repliesList,
-	setRepliesList,
-	isReply,
 	setIsUserReplying,
 	children,
 	setChildren,
@@ -16,7 +13,6 @@ const UserInput = ({
 	isRootComment,
 	isEditing,
 	setIsEditing,
-	id,
 }) => {
 	const [text, setText] = useState('');
 	const { image, username } = currentUser;
@@ -26,8 +22,6 @@ const UserInput = ({
 			setText(commentContent?.content || '');
 		}
 	}, []);
-
-	const date = new Date();
 
 	const handleChange = (e) => {
 		setText(e.target.value);
@@ -69,14 +63,6 @@ const UserInput = ({
 		}
 		setText('');
 	};
-
-	// const date = new Date();
-	// const oldDate = new Date('2023-04-13');
-	// console.log(date);
-	// console.log(oldDate);
-	// const dif = date - oldDate;
-	// let dif2 = dif / (1000 * 60 * 60 * 24);
-	// console.log(dif2);
 
 	return (
 		<article className="user_input">

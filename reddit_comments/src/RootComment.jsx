@@ -20,7 +20,7 @@ const RootComment = ({
 	const [commentContent, setCommentContent] = useState(comment);
 	const [children, setChildren] = useState(commentContent?.replies || []);
 	const [isEditing, setIsEditing] = useState(false);
-	const { score, user, createdAt, id, replyingTo, content } = commentContent;
+	const { score, user, createdAt, id } = commentContent;
 
 	useEffect(() => {
 		setRating(score);
@@ -50,16 +50,6 @@ const RootComment = ({
 		const dialog = document.getElementById(id);
 		dialog.showModal();
 	};
-
-	// const date = new Date();
-	// const oldDate = new Date('2023-04-13');
-	// console.log(date);
-	// console.log(oldDate);
-	// const dif = date - oldDate;
-	// let dif2 = dif / (1000 * 60 * 60 * 24);
-	// console.log(dif2);
-
-	// console.log(createdAt, id);
 
 	return (
 		<>
@@ -169,13 +159,9 @@ const RootComment = ({
 							<UserInput
 								isEditing={isEditing}
 								setIsEditing={setIsEditing}
-								id={id}
 								currentUser={currentUser}
 								commentsList={commentsList}
 								setCommentsList={setCommentsList}
-								repliesList={repliesList}
-								setRepliesList={setRepliesList}
-								isReply={isReply}
 								setIsUserReplying={setIsUserReplying}
 								children={children}
 								setChildren={setChildren}
@@ -192,9 +178,6 @@ const RootComment = ({
 					currentUser={currentUser}
 					commentsList={commentsList}
 					setCommentsList={setCommentsList}
-					repliesList={repliesList}
-					setRepliesList={setRepliesList}
-					isReply={isReply}
 					setIsUserReplying={setIsUserReplying}
 					children={children}
 					setChildren={setChildren}
@@ -204,7 +187,6 @@ const RootComment = ({
 			)}
 			{children?.length != 0 && (
 				<RepliesList
-					commentContent={commentContent}
 					currentUser={currentUser}
 					children={children}
 					setChildren={setChildren}

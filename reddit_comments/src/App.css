@@ -292,7 +292,6 @@ img {
 }
 
 .replies_container > :last-child {
-	/* border: 1px red solid; */
 	margin-bottom: 0;
 }
 

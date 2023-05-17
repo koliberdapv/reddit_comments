@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import RootComment from './RootComment';
-const RepliesList = ({ comment, currentUser, children, setChildren }) => {
+const RepliesList = ({ currentUser, children, setChildren }) => {
 	const [repliesList, setRepliesList] = useState(children);
 	const isMounted = useRef(false);
 
@@ -15,6 +15,7 @@ const RepliesList = ({ comment, currentUser, children, setChildren }) => {
 		}
 		setChildren(repliesList);
 	}, [repliesList]);
+
 	return (
 		<div className="replies_list | grid">
 			<div className="divider"></div>
